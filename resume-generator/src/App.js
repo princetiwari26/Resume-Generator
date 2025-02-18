@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios'
 
 function App() {
   const [uniqueId, setUniqueId] = useState(null);
@@ -9,7 +10,7 @@ function App() {
     if (storedId) {
       setUniqueId(storedId);
     } else {
-      axios.get("http://localhost:5000/generate-id").then((res) => {
+      axios.get("http://localhost:8000/generate-unique-id").then((res) => {
         setUniqueId(res.data.uniqueId);
         localStorage.setItem("uniqueId", res.data.uniqueId);
       });
