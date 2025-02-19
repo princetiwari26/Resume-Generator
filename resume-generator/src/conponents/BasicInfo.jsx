@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaUser, FaEnvelope, FaPhone, FaCity, FaPlus, FaTimes, FaSave, FaEdit } from "react-icons/fa";
 
-const BasicInfo = ({ resumeData, uniqueId }) => {
+const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
   const [popup, setPopup] = useState(false);
   const [basicInfo, setBasicInfo] = useState({
     name: resumeData.name || "",
@@ -34,11 +34,13 @@ const BasicInfo = ({ resumeData, uniqueId }) => {
     axios
       .post("http://localhost:8000/api/resumes/basic-info/add-or-update", { uniqueId, ...updatedData })
       .then((res) => {
-        console.log("Response from server:", res.data);
+        // console.log("Response from server:", res.data);
         localStorage.setItem("formData", JSON.stringify(updatedData));
         setPopup(false);
+        fetchResumeData()
       })
       .catch((err) => console.error("Error saving data:", err));
+
   };
 
   return (

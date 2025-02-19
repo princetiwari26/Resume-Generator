@@ -43,7 +43,7 @@ function App() {
         <div className='text-white text-lg font-bold bg-slate-800 rounded-lg p-2 border-2'>ID - <span>{uniqueId}</span></div>
       </div>
 
-      <BasicInfo resumeData={resumeData} uniqueId={uniqueId}/>
+      <BasicInfo resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
     </div>
   );
 }
