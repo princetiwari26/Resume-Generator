@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/', uniqueId)
-app.use('/api/resume', resumeRouter)
+app.use('/api/resumes', resumeRouter)
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
