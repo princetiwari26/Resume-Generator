@@ -54,7 +54,7 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
           {!resumeData.basicInfo.name ? (
             <button
               onClick={() => setPopup(true)}
-              className="flex items-center justify-center bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 w-full md:w-auto transition-all duration-300"
+              className="flex items-center justify-center bg-purple-700 text-white px-5 py-2 rounded-lg hover:bg-purple-800 w-full md:w-auto transition-all duration-300"
             >
               <FaPlus className="mr-2" /> Add Info
             </button>
@@ -62,9 +62,9 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
             <div>
               <div
                 onClick={() => setPopup(true)}
-                className="float-right p-2 bg-purple-700 text-white rounded-lg cursor-pointer mt-[-50px] md:mt-0"
+                className="float-right p-2 text-white rounded-lg cursor-pointer mt-[-50px] md:mt-0"
               >
-                <FaEdit className="mr-2 inline" /> Edit
+                <FaEdit className="text-xl text-yellow-500 mx-2 cursor-pointer" />
               </div>
               <div>
 

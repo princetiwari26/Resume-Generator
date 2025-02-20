@@ -1,11 +1,18 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
-import BasicInfo from './conponents/BasicInfo';
+import BasicInfo from './components/BasicInfo';
+import Summary from './components/Summary';
+import Education from './components/Education';
+import WorkExperience from './components/WorkExperience';
+import Projects from './components/Projects';
+import Skills from './components/Skills';
+import Certificates from './components/Certificates';
+import Links from './components/Links';
 
 function App() {
   const [uniqueId, setUniqueId] = useState(null);
-  const [resumeData, setResumeData] = useState({ basicInfo: {}});
+  const [resumeData, setResumeData] = useState({ basicInfo: {}, education: [],  workExperience: [], projects: [], skills: [], certificates: [], links: []});
 
   useEffect(() => {
     const storedId = localStorage.getItem("uniqueId");
@@ -24,7 +31,7 @@ function App() {
       axios
         .get(`http://localhost:8000/api/resumes/${uniqueId}`)
         .then((response) => {
-          setResumeData(response.data || { basicInfo: {}});
+          setResumeData(response.data || { basicInfo: {}, education: [],  workExperience: [], projects: [], skills: [], certificates: [], links: []});
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -44,6 +51,13 @@ function App() {
       </div>
 
       <BasicInfo resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
+      <Summary resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
+      <Education resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
+      <WorkExperience resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
+      <Projects resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
+      <Skills resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
+      <Certificates resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
+      <Links resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
     </div>
   );
 }
