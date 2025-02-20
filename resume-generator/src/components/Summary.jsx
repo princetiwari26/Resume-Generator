@@ -42,22 +42,24 @@ const Summary = ({ resumeData, uniqueId, fetchResumeData }) => {
                 }}
                 className="float-right p-2 cursor-pointer ml-4"
               >
-                <FaEdit className="text-xl text-yellow-500 mx-2 cursor-pointer" />
+                <FaEdit className="text-xl text-pink-600 mx-2 cursor-pointer" />
               </div>
               <div className="grid md:flex font-semibold text-slate-600 text-sm">
                 <p>{resumeData.summary}</p>
               </div>
             </div>
           ) : (
-            <button
-              onClick={() => {
-                setSummary("");
-                setPopup(true);
-              }}
-              className="flex items-center justify-center bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 w-full md:w-auto transition-all duration-300"
-            >
-              <FaPlus className="mr-2" /> Add Info
-            </button>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={() => {
+                  setSummary("");
+                  setPopup(true);
+                }}
+                className="bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
+              >
+                <FaPlus className="mr-2" /> Add Summary
+              </button>
+            </div>
           )}
 
           {popup && (

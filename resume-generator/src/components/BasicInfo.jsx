@@ -52,12 +52,15 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
 
         <div className="md:w-4/5 w-full mt-4 md:mt-0">
           {!resumeData.basicInfo.name ? (
-            <button
-              onClick={() => setPopup(true)}
-              className="flex items-center justify-center bg-purple-700 text-white px-5 py-2 rounded-lg hover:bg-purple-800 w-full md:w-auto transition-all duration-300"
-            >
-              <FaPlus className="mr-2" /> Add Info
-            </button>
+            <div className="flex">
+              <button
+                onClick={() => setPopup(true)}
+                className="flex items-center justify-center bg-purple-700 text-white px-5 py-2 rounded-lg hover:bg-purple-800 w-full md:w-auto transition-all duration-300"
+              >
+                <FaPlus className="mr-2" /> Add Basic Info
+              </button>
+              <p className="p-2 ml-2 text-white font-semibold bg-red-600 rounded-xl">Add this first</p>
+            </div>
           ) : (
             <div>
               <div

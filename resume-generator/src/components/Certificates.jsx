@@ -88,8 +88,20 @@ const Certificates = ({ resumeData, uniqueId, fetchResumeData }) => {
                         <input type="date" className="w-full p-2 border my-2" value={certificateData.date} onChange={(e) => setCertificateData({ ...certificateData, date: e.target.value })} />
 
                         <div className="flex justify-end space-x-3">
-                            <button onClick={() => setPopup(false)} className="bg-gray-400 px-4 py-2 text-white rounded-md"><FaTimes /> Cancel</button>
-                            <button onClick={handleSave} className="bg-green-500 px-4 py-2 text-white rounded-md"><FaSave /> Save</button>
+                            <button
+                                type="button"
+                                onClick={() => setPopup(false)}
+                                className="flex items-center bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-all duration-300"
+                            >
+                                <FaTimes className="mr-2" /> Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="flex items-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300"
+                                onClick={handleSave}
+                            >
+                                <FaSave className="mr-2" /> Save
+                            </button>
                         </div>
                     </div>
                 </div>
