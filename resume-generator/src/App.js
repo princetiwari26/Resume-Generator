@@ -9,10 +9,11 @@ import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Certificates from './components/Certificates';
 import Links from './components/Links';
+import ResumeButtons from './components/ResumeButtons';
 
 function App() {
   const [uniqueId, setUniqueId] = useState(null);
-  const [resumeData, setResumeData] = useState({ basicInfo: {}, education: [],  workExperience: [], projects: [], skills: [], certificates: [], links: []});
+  const [resumeData, setResumeData] = useState({ basicInfo: {}, education: [], workExperience: [], projects: [], skills: [], certificates: [], links: [] });
 
   useEffect(() => {
     const storedId = localStorage.getItem("uniqueId");
@@ -31,7 +32,7 @@ function App() {
       axios
         .get(`http://localhost:8000/api/resumes/${uniqueId}`)
         .then((response) => {
-          setResumeData(response.data || { basicInfo: {}, education: [],  workExperience: [], projects: [], skills: [], certificates: [], links: []});
+          setResumeData(response.data || { basicInfo: {}, education: [], workExperience: [], projects: [], skills: [], certificates: [], links: [] });
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -50,14 +51,17 @@ function App() {
         <div className='text-white text-lg font-bold bg-slate-800 rounded-lg p-2 border-2'>ID - <span>{uniqueId}</span></div>
       </div>
 
-      <BasicInfo resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
-      <Summary resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
-      <Education resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
-      <WorkExperience resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
-      <Projects resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
-      <Skills resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
-      <Certificates resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
-      <Links resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData}/>
+      <div>
+        <BasicInfo resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
+        <Summary resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
+        <Education resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
+        <WorkExperience resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
+        <Projects resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
+        <Skills resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
+        <Certificates resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
+        <Links resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
+      </div>
+      <ResumeButtons/>
     </div>
   );
 }
