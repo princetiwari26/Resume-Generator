@@ -6,16 +6,16 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
   const [popup, setPopup] = useState(false);
   const [basicInfo, setBasicInfo] = useState({
     name: resumeData.name || "",
-    email: resumeData.email || "",
     phone: resumeData.phone || "",
+    email: resumeData.email || "",
     city: resumeData.city || ""
   });
 
   useEffect(() => {
     setBasicInfo({
       name: resumeData.basicInfo?.name || "",
-      email: resumeData.basicInfo?.email || "",
       phone: resumeData.basicInfo?.phone || "",
+      email: resumeData.basicInfo?.email || "",
       city: resumeData.basicInfo?.city || ""
     });
   }, [resumeData]);
@@ -25,8 +25,8 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
       ...resumeData,
       basicInfo: {
         name: basicInfo.name,
-        email: basicInfo.email,
         phone: basicInfo.phone,
+        email: basicInfo.email,
         city: basicInfo.city
       }
     };
@@ -45,7 +45,7 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
 
   return (
     <div className="w-screen flex justify-center">
-      <div className="w-full md:max-w-6xl bg-white shadow-2xl rounded-lg p-8 flex flex-col md:flex-row mx-4 mt-5">
+      <div className="w-full md:max-w-6xl bg-white shadow-2xl rounded-lg p-8 flex flex-col md:flex-row mx-4 mt-8">
         <div className="md:w-1/5 w-full flex justify-center md:justify-start">
           <h2 className="text-xl font-bold text-gray-800">Basic Info</h2>
         </div>
@@ -53,13 +53,22 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
         <div className="md:w-4/5 w-full mt-4 md:mt-0">
           {!resumeData.basicInfo.name ? (
             <div className="flex">
-              <button
-                onClick={() => setPopup(true)}
-                className="flex items-center justify-center bg-purple-700 text-white px-5 py-2 rounded-lg hover:bg-purple-800 w-full md:w-auto transition-all duration-300"
-              >
-                <FaPlus className="mr-2" /> Add Basic Info
-              </button>
-              <p className="p-2 ml-2 text-white font-semibold bg-red-600 rounded-xl">Add this first</p>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setPopup(true)}
+                  className="bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
+                >
+                  <FaPlus className="mr-2" /> Add Basic Info
+                </button>
+              </div>
+              <div className="flex">
+                <p
+                  onClick={() => setPopup(true)}
+                  className="bg-red-600 text-white px-4 rounded-lg flex items-center ml-5"
+                >
+                  Note - Add this first
+                </p>
+              </div>
             </div>
           ) : (
             <div>
@@ -73,9 +82,9 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
 
                 <h1 className="text-3xl font-bold">{resumeData.basicInfo.name || "No Name Provided"}</h1>
                 <div className="grid md:flex font-bold text-slate-600 text-sm">
-                  <p>{resumeData.basicInfo.email || "No Email Provided"}</p>
-                  <p className="md:mx-3">{resumeData.basicInfo.phone || "No Phone Provided"}</p>
-                  <p className="md:mx-3">{resumeData.basicInfo.city || "No City Provided"}</p>
+                  <p>{resumeData.basicInfo.phone || "No Phone Number Provided"}</p>
+                  <p className="md:ml-5">{resumeData.basicInfo.email || "No Email Provided"}</p>
+                  <p className="md:ml-5">{resumeData.basicInfo.city || "No City Provided"}</p>
                 </div>
 
               </div>

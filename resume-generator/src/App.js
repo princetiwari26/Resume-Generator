@@ -144,7 +144,13 @@ function App() {
         <Certificates resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
         <Links resumeData={resumeData} uniqueId={uniqueId} fetchResumeData={fetchResumeData} />
       </div>
+
       <ResumeButtons />
+
+      <div className='flex mt-6 place-content-center w-full'>
+        <p className='bg-red-600 text-white px-1 rounded-lg italic'>Note - In case data is not showing in the preview or download, please refresh the website.  
+        Your entered data will not be removed or replaced.</p>
+      </div>
     </div>
   );
 }

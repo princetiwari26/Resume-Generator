@@ -11,7 +11,7 @@ const StyledResume = ({ resumeData }) => {
             {/* Name & Contact */}
             <h1 className="text-4xl font-bold text-center text-sky-600 mb-2">{basicInfo?.name}</h1>
             <p className="text-center text-gray-700 font-semibold">
-                {basicInfo?.city} | {basicInfo?.email} | {basicInfo?.phone}
+                {basicInfo?.phone} | {basicInfo?.email} | {basicInfo?.city}
             </p>
             <hr className="my-4 border-t-2 border-gray-400" />
 
