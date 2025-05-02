@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlus, FaTimes, FaSave, FaEdit, FaTrash } from "react-icons/fa";
+import Button from "./common/Button";
 
 const Projects = ({ resumeData, uniqueId, fetchResumeData }) => {
     const [popup, setPopup] = useState(false);
@@ -84,26 +85,25 @@ const Projects = ({ resumeData, uniqueId, fetchResumeData }) => {
                                     <p className="text-gray-700">{project.description}</p>
                                     {project.link && <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 font-semibold">View</a>}
                                 </div>
-                                <div className="flex space-x-3 text-xl">
-                                    <button onClick={() => openEditPopup(project)} className="text-green-600"><FaEdit /></button>
-                                    <button onClick={() => handleDelete(project._id)} className="text-red-500"><FaTrash /></button>
+                                <div className="flex">
+                                <Button onClick={() => openEditPopup(project)} variant="edit" textColor="text-green-500"/>
+                                <Button onClick={() => handleDelete(project._id)} variant="delete"/>
                                 </div>
 
                             </li>
                         ))}
                     </ul>
                     <div className="flex justify-end mt-4">
-                        <button
+                        <Button
+                            variant="add"
+                            label="Add Projects"
                             onClick={() => setPopup(true)}
-                            className="bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
-                        >
-                            <FaPlus className="mr-2" /> Add Projects
-                        </button>
+                        />
                     </div>
                 </div>
 
                 {popup && (
-                    <div className="fixed w-full h-screen top-0 left-0 bg-gray-700 bg-opacity-50 flex items-center justify-center">
+                    <div className="fixed w-full h-screen top-0 left-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-10">
                         <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                             <h3 className="text-2xl font-bold text-center mb-4">{editingProjectId ? "Edit Project" : "Add Project"}</h3>
                             <form onSubmit={handleSave} className="space-y-3">
@@ -156,19 +156,8 @@ const Projects = ({ resumeData, uniqueId, fetchResumeData }) => {
 
                                 {/* Buttons */}
                                 <div className="flex justify-end space-x-3">
-                                    <button
-                                        type="button"
-                                        onClick={() => setPopup(false)}
-                                        className="flex items-center bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-all duration-300"
-                                    >
-                                        <FaTimes className="mr-2" /> Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="flex items-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300"
-                                    >
-                                        <FaSave className="mr-2" /> Save
-                                    </button>
+                                <Button onClick={() => setPopup(false)} variant="cancel" label="Cancel" />
+                                <Button type="submit" variant="save" label="Save" />
                                 </div>
                             </form>
                         </div>

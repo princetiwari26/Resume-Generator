@@ -1,30 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { FaPlus, FaTimes, FaSave, FaTrash, FaEdit } from "react-icons/fa";
 import axios from "axios";
+import Button from "./common/Button";
 
 const Certificates = ({ resumeData, uniqueId, fetchResumeData }) => {
     const [popup, setPopup] = useState(false);
-    const [editing, setEditing] = useState(null);
+    const [editingId, setEditingId] = useState(null);
     const [certificateData, setCertificateData] = useState({ title: "", provider: "", date: "" });
-    const [certificates, setCertificates] = useState(resumeData?.certificates || [])
 
     useEffect(() => {
-        setCertificates(resumeData?.certificates || [])
-    }, [resumeData])
+        setCertificateData({ title: "", provider: "", date: "" });
+        setEditingId(null);
+    }, [resumeData]);
 
-    const handleSave = async () => {
+    const resetForm = () => {
+        setCertificateData({ title: "", provider: "", date: "" });
+        setEditingId(null);
+    };
+
+    const handleSave = async (e) => {
+        e.preventDefault();
         try {
-            if (editing) {
-                const response = await axios.put("http://localhost:8000/api/resumes/certificates/edit", { uniqueId, certificateId: editing, ...certificateData });
-                setCertificates(response.data.certificates)
+            if (editingId) {
+                await axios.put("http://localhost:8000/api/resumes/certificates/edit", {
+                    uniqueId,
+                    certificateId: editingId,
+                    ...certificateData
+                });
             } else {
-                const response = await axios.post("http://localhost:8000/api/resumes/certificates/add", { uniqueId, ...certificateData });
-                setCertificates(response.data.certificates)
+                await axios.post("http://localhost:8000/api/resumes/certificates/add", {
+                    uniqueId,
+                    ...certificateData
+                });
             }
-            fetchResumeData()
+            fetchResumeData();
             setPopup(false);
-            setEditing(null);
-            setCertificateData({ title: "", provider: "", date: "" });
+            resetForm();
         } catch (error) {
             console.error("Error saving certificate:", error);
         }
@@ -32,15 +42,17 @@ const Certificates = ({ resumeData, uniqueId, fetchResumeData }) => {
 
     const handleEdit = (cert) => {
         setCertificateData(cert);
-        setEditing(cert._id);
+        setEditingId(cert._id);
         setPopup(true);
     };
 
     const handleDelete = async (certificateId) => {
         try {
-            await axios.delete("http://localhost:8000/api/resumes/certificates/delete", { data: { uniqueId, certificateId } });
+            await axios.delete("http://localhost:8000/api/resumes/certificates/delete", {
+                data: { uniqueId, certificateId }
+            });
             fetchResumeData();
-            alert("Certificates is deleted!!!")
+            alert("Certificate deleted successfully!");
         } catch (error) {
             console.error("Error deleting certificate:", error);
         }
@@ -48,64 +60,56 @@ const Certificates = ({ resumeData, uniqueId, fetchResumeData }) => {
 
     return (
         <div className="w-screen flex justify-center">
-            <div className="w-full md:max-w-6xl bg-white shadow-2xl rounded-lg p-8 flex flex-col md:flex-row mx-4 mt-5">
+            <div className="w-full md:max-w-6xl bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row mx-4 mt-5">
                 <div className="md:w-1/5 w-full flex justify-center md:justify-start">
                     <h2 className="text-xl font-bold text-gray-800">Certificates</h2>
                 </div>
-
                 <div className="md:w-4/5 w-full mt-4 md:mt-0">
-                    <div className="space-y-4">
+                    <ul>
                         {resumeData.certificates.map((cert) => (
-                            <div key={cert._id} className="p-4 border rounded-md flex justify-between items-center">
+                            <li key={cert._id} className="border p-3 my-2 flex justify-between items-center bg-gray-100 rounded-lg">
                                 <div>
-                                    <h1 className="text-lg font-bold">{cert.title}</h1>
+                                    <h3 className="text-lg font-bold">{cert.title}</h3>
                                     <p className="text-sm text-gray-600">{cert.provider} ({cert.date})</p>
                                 </div>
-                                <div className="flex space-x-3 text-xl">
-                                    <FaEdit className="text-orange-600 cursor-pointer" onClick={() => handleEdit(cert)} />
-                                    <FaTrash className="text-red-500 cursor-pointer" onClick={() => handleDelete(cert._id)} />
+                                <div className="flex">
+                                    <Button onClick={() => handleEdit(cert)} variant="edit" textColor="text-orange-500" />
+                                    <Button onClick={() => handleDelete(cert._id)} variant="delete" />
                                 </div>
-                            </div>
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                     <div className="flex justify-end mt-4">
-                        <button
-                            onClick={() => setPopup(true)}
-                            className="bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
-                        >
-                            <FaPlus className="mr-2" /> Add Certificates
-                        </button>
+                        <Button variant="add" label="Add Certificates" onClick={() => setPopup(true)} />
                     </div>
                 </div>
-            </div>
 
-            {popup && (
-                <div className="fixed w-full h-screen top-0 left-0 bg-gray-700 flex items-center justify-center bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg">
-                        <h3 className="text-2xl text-center">{editing ? "Edit Certificate" : "Add Certificate"}</h3>
-                        <input type="text" placeholder="Title" className="w-full p-2 border my-2" value={certificateData.title} onChange={(e) => setCertificateData({ ...certificateData, title: e.target.value })} />
-                        <input type="text" placeholder="Provider" className="w-full p-2 border my-2" value={certificateData.provider} onChange={(e) => setCertificateData({ ...certificateData, provider: e.target.value })} />
-                        <input type="date" className="w-full p-2 border my-2" value={certificateData.date} onChange={(e) => setCertificateData({ ...certificateData, date: e.target.value })} />
-
-                        <div className="flex justify-end space-x-3">
-                            <button
-                                type="button"
-                                onClick={() => setPopup(false)}
-                                className="flex items-center bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-all duration-300"
-                            >
-                                <FaTimes className="mr-2" /> Cancel
-                            </button>
-                            <button
-                                type="button"
-                                className="flex items-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300"
-                                onClick={handleSave}
-                            >
-                                <FaSave className="mr-2" /> Save
-                            </button>
+                {popup && (
+                    <div className="fixed w-full h-screen top-0 left-0 bg-gray-700 bg-opacity-50 flex items-center justify-center z-10">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                            <h3 className="text-2xl font-bold text-center mb-4">{editingId ? "Edit Certificate" : "Add Certificate"}</h3>
+                            <form onSubmit={handleSave} className="space-y-3">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Title</label>
+                                    <input type="text" value={certificateData.title} onChange={(e) => setCertificateData({ ...certificateData, title: e.target.value })} className="w-full p-2 border border-gray-300 rounded-md" required />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Provider</label>
+                                    <input type="text" value={certificateData.provider} onChange={(e) => setCertificateData({ ...certificateData, provider: e.target.value })} className="w-full p-2 border border-gray-300 rounded-md" required />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Date</label>
+                                    <input type="date" value={certificateData.date} onChange={(e) => setCertificateData({ ...certificateData, date: e.target.value })} className="w-full p-2 border border-gray-300 rounded-md" required />
+                                </div>
+                                <div className="flex justify-end space-x-3">
+                                    <Button onClick={() => setPopup(false)} variant="cancel" label="Cancel" />
+                                    <Button type="submit" variant="save" label="Save" />
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

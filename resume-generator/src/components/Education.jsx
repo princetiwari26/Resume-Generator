@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { indianBoards, educationLevels, months, years } from "../DropDown/DropDownOptions";
+import Button from "./common/Button";
 
 const Education = ({ resumeData, uniqueId, fetchResumeData }) => {
   const [popup, setPopup] = useState(false);
@@ -71,33 +72,33 @@ const Education = ({ resumeData, uniqueId, fetchResumeData }) => {
                     <p>{edu.startMonth} {edu.startYear} - {edu.endMonth} {edu.endYear}</p>
                   </div>
                 </div>
-                <div className="flex space-x-2 text-xl">
-                  <FaEdit
+                <div className="flex">
+                  <Button
+                    variant="edit"
                     onClick={() => {
                       setFormData(edu);
                       setEditId(edu._id);
                       setPopup(true);
                     }}
-                    className="text-yellow-500 mx-2 cursor-pointer"
+                    textColor="text-yellow-500"
                   />
-                  <FaTrash onClick={() => handleDelete(edu._id)} className="text-red-500 cursor-pointer" />
+                  <Button onClick={() => handleDelete(edu._id)} variant="delete" />
                 </div>
               </li>
             ))}
           </ul>
           <div className="flex justify-end mt-4">
-            <button
+            <Button
+              variant="add"
+              label="Add Education"
               onClick={() => setPopup(true)}
-              className="bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
-            >
-              <FaPlus className="mr-2" /> Add Education
-            </button>
+            />
           </div>
         </div>
       </div>
 
       {popup && (
-        <div className="fixed w-full h-screen top-0 left-0 bg-gray-700 flex items-center justify-center bg-opacity-50">
+        <div className="fixed w-full h-screen top-0 left-0 bg-gray-700 flex items-center justify-center bg-opacity-50 z-10">
           <div className="space-y-4 bg-white p-6 rounded-lg w-96">
             <h3 className="text-2xl text-center font-semibold">Education</h3>
 
@@ -156,8 +157,8 @@ const Education = ({ resumeData, uniqueId, fetchResumeData }) => {
                 </div>
               </div>
               <div className="flex justify-end space-x-3">
-                <button type="button" onClick={() => setPopup(false)} className="bg-gray-400 text-white px-4 py-2 rounded-md">Cancel</button>
-                <button type="submit" onClick={handleSave} className="bg-green-500 text-white px-4 py-2 rounded-md">Save</button>
+                <Button onClick={() => setPopup(false)} variant="cancel" label="Cancel" />
+                <Button onClick={handleSave} variant="save" label="Save" />
               </div>
             </form>
 
