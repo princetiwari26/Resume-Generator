@@ -1,95 +1,70 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { FaPlus, FaTimes, FaSave, FaEdit } from "react-icons/fa";
+import Button from "./common/Button";
 
 const Summary = ({ resumeData, uniqueId, fetchResumeData }) => {
-  const [summary, setSummary] = useState("");
   const [popup, setPopup] = useState(false);
+  const [summary, setSummary] = useState("");
 
-  const handleSummaryUpdate = async () => {
-    if (!uniqueId) return alert("Unique ID is missing!");
-    if (!summary.trim()) return alert("Enter a summary first");
+  const handleSave = async () => {
+    if (!uniqueId || !summary.trim()) return alert("Enter a summary");
+    if (summary.length > 300) return alert("Summary cannot exceed 300 characters");
 
     try {
       await axios.post(
         "http://localhost:8000/api/resumes/summary/add-or-update-summary",
-        { uniqueId: uniqueId, summary },
+        { uniqueId, summary },
         { headers: { "Content-Type": "application/json" } }
       );
-
       setPopup(false);
       fetchResumeData();
     } catch (error) {
-      console.error("Error:", error.response ? error.response.data : error.message);
-      alert("Failed to update summary. Check console for details.");
+      console.error("Error:", error);
+      alert("Failed to update summary.");
     }
   };
 
   return (
     <div className="w-screen flex justify-center">
       <div className="w-full md:max-w-6xl bg-white shadow-2xl rounded-lg p-8 flex flex-col md:flex-row mx-4 mt-5">
-        <div className="md:w-1/5 w-full flex justify-center md:justify-start">
+        <div className="md:w-1/5 w-full">
           <h2 className="text-xl font-bold text-gray-800">Summary</h2>
         </div>
-
         <div className="md:w-4/5 w-full mt-4 md:mt-0">
           {resumeData.summary ? (
-            <div>
-              <div
+            <div className="flex justify-between items-start">
+              <p className="text-slate-600 font-semibold w-11/12">{resumeData.summary}</p>
+              <Button
+                variant="edit"
                 onClick={() => {
-                  setSummary(resumeData.summary || "");
+                  setSummary(resumeData.summary);
                   setPopup(true);
                 }}
-                className="float-right p-2 cursor-pointer ml-4"
-              >
-                <FaEdit className="text-xl text-pink-600 mx-2 cursor-pointer" />
-              </div>
-              <div className="grid md:flex font-semibold text-slate-600 text-sm">
-                <p>{resumeData.summary}</p>
-              </div>
+              />
             </div>
           ) : (
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={() => {
-                  setSummary("");
-                  setPopup(true);
-                }}
-                className="bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
-              >
-                <FaPlus className="mr-2" /> Add Summary
-              </button>
+            <div className="flex justify-end">
+              <Button variant="add" label="Add Summary" onClick={() => setPopup(true)} />
             </div>
           )}
 
           {popup && (
-            <div className="fixed w-full h-screen top-0 left-0 bg-slate-700 flex items-center justify-center bg-opacity-50">
-              <div className="space-y-3 bg-white p-4 rounded-lg w-[400px]">
-                <h3 className="text-2xl font-bold text-center">Summary / Overview</h3>
-                <div className="grid space-y-2">
-                  <label className="ml-1 font-bold text-gray-700">Summary</label>
-                  <textarea
-                    placeholder="Enter Summary"
-                    value={summary}
-                    onChange={(e) => setSummary(e.target.value)}
-                    className="w-full h-40 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                  ></textarea>
-                </div>
-
+            <div className="fixed w-full h-screen top-0 left-0 bg-slate-700 bg-opacity-50 flex items-center justify-center z-10">
+              <div className="bg-white p-6 rounded-lg w-96 space-y-4">
+                <h3 className="text-xl font-bold text-center">Edit Summary</h3>
+                <textarea
+                  value={summary}
+                  onChange={(e) => setSummary(e.target.value)}
+                  className="w-full h-40 p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  placeholder="Enter summary (max 300 characters)"
+                  maxLength={300}
+                />
+                <p className={`text-sm ${summary.length > 300 ? "text-red-600" : "text-gray-500"}`}>
+                  {summary.length} / 300 characters
+                </p>
                 <div className="flex justify-end space-x-3">
-                  <button
-                    type="button"
-                    onClick={() => setPopup(false)}
-                    className="flex items-center bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-all duration-300"
-                  >
-                    <FaTimes className="mr-2" /> Cancel
-                  </button>
-                  <button
-                    onClick={handleSummaryUpdate}
-                    className="flex items-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300"
-                  >
-                    <FaSave className="mr-2" /> Save
-                  </button>
+                  <Button variant="cancel" label="Cancel" onClick={() => setPopup(false)} />
+                  <Button variant="save" label="Save" onClick={handleSave} />
                 </div>
               </div>
             </div>
