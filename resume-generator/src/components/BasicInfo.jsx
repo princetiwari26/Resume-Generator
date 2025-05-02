@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaUser, FaEnvelope, FaPhone, FaCity, FaPlus, FaTimes, FaSave, FaEdit } from "react-icons/fa";
+import Button from "./common/Button";
 
 const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
   const [popup, setPopup] = useState(false);
@@ -20,27 +21,21 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
     });
   }, [resumeData]);
 
-  const handleSave = () => {
-    const updatedData = {
-      ...resumeData,
-      basicInfo: {
-        name: basicInfo.name,
-        phone: basicInfo.phone,
-        email: basicInfo.email,
-        city: basicInfo.city
-      }
-    };
-
-    axios
-      .post("http://localhost:8000/api/resumes/basic-info/add-or-update", { uniqueId, ...updatedData })
-      .then((res) => {
-        // console.log("Response from server:", res.data);
-        localStorage.setItem("formData", JSON.stringify(updatedData));
-        setPopup(false);
-        fetchResumeData()
-      })
-      .catch((err) => console.error("Error saving data:", err));
-
+  const handleSave = async () => {
+    try {
+      const updatedData = {
+        ...resumeData,
+        basicInfo: { ...basicInfo },
+      };
+      await axios.post("http://localhost:8000/api/resumes/basic-info/add-or-update", {
+        uniqueId,
+        ...updatedData,
+      });
+      setPopup(false);
+      fetchResumeData();
+    } catch (err) {
+      console.error("Error saving basic info:", err);
+    }
   };
 
   return (
@@ -54,17 +49,16 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
           {!resumeData.basicInfo.name ? (
             <div className="flex">
               <div className="flex justify-end">
-                <button
+                <Button
+                  variant="add"
+                  label="Add Basic Info"
                   onClick={() => setPopup(true)}
-                  className="bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
-                >
-                  <FaPlus className="mr-2" /> Add Basic Info
-                </button>
+                />
               </div>
               <div className="flex">
                 <p
                   onClick={() => setPopup(true)}
-                  className="bg-red-600 text-white px-4 rounded-lg flex items-center ml-5"
+                  className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 rounded-lg flex items-center ml-5"
                 >
                   Note - Add this first
                 </p>
@@ -73,10 +67,14 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
           ) : (
             <div>
               <div
-                onClick={() => setPopup(true)}
-                className="float-right p-2 text-white rounded-lg cursor-pointer mt-[-50px] md:mt-0"
+                className="float-right p-2 mt-[-50px] md:mt-0"
               >
-                <FaEdit className="text-xl text-yellow-500 mx-2 cursor-pointer" />
+                <Button
+                  variant="edit"
+                  label="Edit"
+                  onClick={() => setPopup(true)}
+                  textColor="text-yellow-500"
+                />
               </div>
               <div>
 
@@ -92,7 +90,7 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
           )}
 
           {popup && (
-            <div className="fixed w-full h-screen top-0 left-0 bg-slate-700 flex items-center justify-center bg-opacity-50">
+            <div className="fixed w-full h-screen top-0 left-0 bg-slate-700 flex items-center justify-center bg-opacity-50 z-10">
               <div>
                 <form className="space-y-3 bg-white p-4 rounded-lg">
                   <h3 className="text-3xl text-center">Basic Info</h3>
@@ -149,20 +147,8 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
                   </div>
 
                   <div className="flex justify-end space-x-3">
-                    <button
-                      type="button"
-                      onClick={() => setPopup(false)}
-                      className="flex items-center bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-all duration-300"
-                    >
-                      <FaTimes className="mr-2" /> Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleSave}
-                      className="flex items-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300"
-                    >
-                      <FaSave className="mr-2" /> Save
-                    </button>
+                    <Button onClick={() => setPopup(false)} variant="cancel" label="Cancel" />
+                    <Button label="Save" onClick={handleSave} variant="save" />
                   </div>
                 </form>
               </div>

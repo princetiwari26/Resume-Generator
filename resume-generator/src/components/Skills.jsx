@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes, FaSave, FaPlus } from "react-icons/fa";
 import axios from "axios";
+import Button from "./common/Button";
 
 const Skills = ({ resumeData, uniqueId, fetchResumeData }) => {
     const [popup, setPopup] = useState(false);
@@ -63,12 +64,11 @@ const Skills = ({ resumeData, uniqueId, fetchResumeData }) => {
                         ))}
                     </div>
                     <div className="flex justify-end mt-4">
-                        <button
+                        <Button
+                            variant="add"
+                            label="Add Skills"
                             onClick={() => setPopup(true)}
-                            className="bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center"
-                        >
-                            <FaPlus className="mr-2" /> Add Skills
-                        </button>
+                        />
                     </div>
 
                     {popup && (
@@ -86,20 +86,9 @@ const Skills = ({ resumeData, uniqueId, fetchResumeData }) => {
                                     />
 
                                     <div className="flex justify-end space-x-3">
-                                        <button
-                                            type="button"
-                                            onClick={() => setPopup(false)}
-                                            className="flex items-center bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-all duration-300"
-                                        >
-                                            <FaTimes className="mr-2" /> Cancel
-                                        </button>
-                                        <button
-                                            type="button"
-                                            className="flex items-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300"
-                                            onClick={() => setPopup(false)}
-                                        >
-                                            <FaSave className="mr-2" /> Done
-                                        </button>
+                                        <Button onClick={() => setPopup(false)} variant="cancel" label="Cancel" />
+                                        <Button onClick={() => setPopup(false)} variant="save" label="Done" />
+
                                     </div>
                                 </form>
                             </div>
