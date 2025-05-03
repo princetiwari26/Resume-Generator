@@ -46,7 +46,7 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
         </div>
 
         <div className="md:w-4/5 w-full mt-4 md:mt-0">
-          {!resumeData.basicInfo.name ? (
+          {!resumeData.basicInfo?.name ? (
             <div className="flex">
               <div className="flex justify-end">
                 <Button

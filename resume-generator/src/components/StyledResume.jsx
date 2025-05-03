@@ -41,8 +41,8 @@ const StyledResume = ({ resumeData }) => {
                     <h2 className="text-md font-bold text-slate-800">EDUCATION</h2>
                     {education.map((edu, index) => (
                         <div key={index} className="mb-4 mt-1">
-                            <p className="font-bold text-slate-700">{edu.degree || edu.educationLevel} | {edu.school}</p>
-                            <p className="text-gray-700 text-sm">{edu.board} | {edu.startYear} - {edu.endYear}</p>
+                            <p className="text-lg font-bold">{edu.degree || edu.educationLevel}, <span>{edu.stream || edu.board}</span></p>
+                            <p className="text-gray-700 text-sm">{edu.school || edu.college} | {edu.startYear} - {edu.endYear}</p>
                         </div>
                     ))}
                     <hr className="my-4 border-t-2 border-gray-400" />

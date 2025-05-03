@@ -37,7 +37,7 @@ function App() {
           setResumeData(response.data || { basicInfo: {}, education: [], workExperience: [], projects: [], skills: [], certificates: [], links: [] });
         })
         .catch((error) => {
-          console.error("Error fetching data:", error);
+          console.error("Resume Generator");
         });
     }
   }
@@ -73,30 +73,29 @@ function App() {
   const handleSearch = () => {
     if (searchId.length === 6) {
       fetchResumeData2(searchId);
+    } else if (searchId.length < 6) {
+      alert('Please Enter Correct ID')
     } else {
       alert("ID not found")
     }
   };
 
   return (
-    <div className='bg-gradient-to-r from-blue-400 to-purple-500 p-4 grid justify-center'>
+    <div className='bg-gradient-to-r from-indigo-400 to-purple-500 p-4 grid justify-center'>
       <h1 className='text-4xl font-bold text-white text-center mt-4'>Resume Generator</h1>
       <div className='grid md:flex items-center justify-center mt-5 md:space-x-24'>
-        <div className='text-white text-lg font-bold bg-slate-800 rounded-lg p-2 border-2'>ID - <span>{uniqueId}</span></div>
+        <div className='text-white text-lg font-bold bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl px-4 py-1 border-2'>ID - <span>{uniqueId}</span></div>
       </div>
 
       <div className='w-full h-10 relative'>
         <div className="absolute right-0 mr-5 mt-2 md:mr-20 flex items-center space-x-3">
-          {/* Floating Label and Input Container */}
           <div className="relative">
-            {/* Floating Label (Now Always Visible) */}
             <label
               className={`absolute left-3 text-gray-600 text-sm transition-all duration-200 
         ${searchId || isFocused ? "-top-5 text-xs bg-white px-1" : "top-2"}`}>
               Enter ID
             </label>
 
-            {/* Hidden Input for User Input */}
             <input
               type="text"
               maxLength="6"
@@ -107,7 +106,6 @@ function App() {
               className="absolute w-full h-full opacity-0 cursor-text"
             />
 
-            {/* Custom Display Box with Visible Click Effect */}
             <div
               className={`w-48 p-2 border rounded-md text-lg font-bold uppercase 
         flex justify-evenly items-center bg-white tracking-wider transition-all 
@@ -123,9 +121,8 @@ function App() {
             </div>
           </div>
 
-          {/* Search Button */}
           <button
-            className="w-20 bg-green-500 text-white p-2 hover:bg-green-600 rounded-md"
+            className="w-20 bg-gradient-to-br from-green-500 to-green-700 text-white p-2 hover:bg-green-600 rounded-md"
             onClick={handleSearch}
           >
             Search
@@ -148,8 +145,8 @@ function App() {
       <ResumeButtons />
 
       <div className='flex mt-6 place-content-center w-full'>
-        <p className='bg-red-600 text-white px-1 rounded-lg italic'>Note - In case data is not showing in the preview or download, please refresh the website.  
-        Your entered data will not be removed or replaced.</p>
+        <p className='bg-red-600 text-white px-1 rounded-lg italic'>Note - In case data is not showing in the preview or download, please refresh the website.
+          Your entered data will not be removed or replaced.</p>
       </div>
     </div>
   );

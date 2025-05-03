@@ -15,7 +15,7 @@ const ResumeButtons = () => {
         if (uniqueId) {
             axios.get(`http://localhost:8000/api/resumes/${uniqueId}`)
                 .then(response => setResumeData(response.data))
-                .catch(error => console.error("Error fetching resume:", error));
+                .catch(error => console.error("Resume Generator"));
         }
     }, [uniqueId]);
 
@@ -26,7 +26,7 @@ const ResumeButtons = () => {
 
         pdf.html(ref.current, {
             callback: function (doc) {
-                doc.save(`${resumeData.basicInfo.name}.pdf`);
+                doc.save(`${resumeData.basicInfo?.name}.pdf`);
             },
             x: 10,
             y: 10,

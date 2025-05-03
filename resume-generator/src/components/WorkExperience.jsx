@@ -85,18 +85,18 @@ const WorkExperience = ({ resumeData, uniqueId, fetchResumeData }) => {
         </div>
         <div className="md:w-4/5 w-full mt-4 md:mt-0">
           <ul>
-            {workExperiences.map((item) => (
-              <li key={item._id} className="border p-3 my-2 flex justify-between items-center bg-gray-100 rounded-lg">
+            {workExperiences.map((work) => (
+              <li key={work._id || `${work.type}-${Math.random()}`} className="border p-3 my-2 flex justify-between items-center bg-gray-100 rounded-lg">
                 <div>
                   <h3 className="text-lg font-bold">
-                    {item.profile} <span className="text-xs italic text-gray-500">{item.type}</span>
+                    {work.profile} <span className="text-xs italic text-gray-500">{work.type}</span>
                   </h3>
-                  <p className="text-sm text-gray-600">{item.organization} – {item.location}</p>
-                  <p className="text-sm text-gray-500">{item.startYear} - {item.endYear}</p>
+                  <p className="text-sm text-gray-600">{work.organization} – {work.location}</p>
+                  <p className="text-sm text-gray-500">{work.startYear} - {work.endYear}</p>
                 </div>
                 <div className="flex">
-                  <Button onClick={() => handleEdit(item)} variant="edit" textColor="text-blue-500" />
-                  <Button onClick={() => handleDelete(item._id)} variant="delete" />
+                  <Button onClick={() => handleEdit(work)} variant="edit" textColor="text-blue-500" />
+                  <Button onClick={() => handleDelete(work._id)} variant="delete" />
                 </div>
               </li>
             ))}
