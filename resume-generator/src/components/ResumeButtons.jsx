@@ -45,21 +45,21 @@ const ResumeButtons = () => {
         <div className="flex place-content-center mt-5 space-x-2">
             {/* Preview Button */}
             <button
-                className="text-white bg-slate-900 hover:bg-purple-900 font-semibold p-2 px-4 border-4 rounded-full"
+                className="text-white bg-slate-900 hover:bg-purple-600 font-semibold p-2 px-4 border-4 rounded-full"
                 onClick={() => setIsPreviewOpen(true)}
             >
                 Preview
             </button>
 
             <button
-                className="text-white bg-slate-900 hover:bg-green-900 font-semibold p-2 px-4 border-4 rounded-full"
+                className="text-white bg-slate-900 hover:bg-yellow-600 font-semibold p-2 px-4 border-4 rounded-full"
                 onClick={() => generatePDF(downloadRef)}
             >
                 Download
             </button>
 
             <button
-                className="text-white bg-slate-900 hover:bg-green-900 font-semibold p-2 px-4 border-4 rounded-full"
+                className="text-white bg-slate-900 hover:bg-orange-600 font-semibold p-2 px-4 border-4 rounded-full"
                 onClick={newResume}
                 >
                 New
