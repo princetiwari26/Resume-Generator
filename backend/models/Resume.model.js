@@ -16,7 +16,7 @@ const resumeSchema = new mongoose.Schema({
             board: { type: String },
             stream: { type: String },
             degree: { type: String },
-            educationLevel: { type: String, enum: ["Secondary (10th)", "Senior Secondary (12th)"] },
+            educationLevel: { type: String },
             startYear: { type: String },
             endYear: { type: String },
         },

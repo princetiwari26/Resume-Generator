@@ -84,6 +84,7 @@ const addEducation = async (req, res) => {
         await edu.save();
         res.status(201).json({ message: "Education added successfully", education: edu.education });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: "Error adding education", error });
     }
 };
