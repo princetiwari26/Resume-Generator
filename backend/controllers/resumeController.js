@@ -76,13 +76,13 @@ const addEducation = async (req, res) => {
     try {
         const { uniqueId, education } = req.body;
 
-        const resume = await Resume.findOneAndUpdate(
-            { uniqueId },
-            { $push: { education } },
-            { new: true }
-        );
-
-        res.status(200).json({ message: "Education added successfully", resume });
+        let edu = await Resume.findOne({ uniqueId });
+        if (!edu) {
+            edu = new Resume({ uniqueId, education: [] });
+        }
+        edu.education.push(education);
+        await edu.save();
+        res.status(201).json({ message: "Education added successfully", education: edu.education });
     } catch (error) {
         res.status(500).json({ message: "Error adding education", error });
     }
@@ -320,41 +320,42 @@ const deleteCertificate = async (req, res) => {
 
 // Links Section
 const addLinks = async (req, res) => {
-  const { uniqueId, website, url } = req.body;
+    const { uniqueId, website, url } = req.body;
 
-  try {
-    let userLinks = await Resume.findOne({ uniqueId });
+    try {
+        let userLinks = await Resume.findOne({ uniqueId });
 
-    if (!userLinks) {
-      userLinks = new Link({ uniqueId, links: [] });
+        if (!userLinks) {
+            userLinks = new Resume({ uniqueId, links: [] });
+        }
+
+        userLinks.links.push({ website, url });
+        await userLinks.save();
+
+        res.status(201).json({ message: "Link added successfully", links: userLinks.links });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Error adding link", error });
     }
-
-    userLinks.links.push({ website, url });
-    await userLinks.save();
-
-    res.status(201).json({ message: "Link added successfully", links: userLinks.links });
-  } catch (error) {
-    res.status(500).json({ message: "Error adding link", error });
-  }
 };
 
 const deleteLink = async (req, res) => {
-  const { uniqueId, linkId } = req.params;
+    const { uniqueId, linkId } = req.params;
 
-  try {
-    const userLinks = await Resume.findOne({ uniqueId });
+    try {
+        const userLinks = await Resume.findOne({ uniqueId });
 
-    if (!userLinks) {
-      return res.status(404).json({ message: "Links not found" });
+        if (!userLinks) {
+            return res.status(404).json({ message: "Links not found" });
+        }
+
+        userLinks.links = userLinks.links.filter((link) => link._id.toString() !== linkId);
+        await userLinks.save();
+
+        res.status(200).json({ message: "Link deleted successfully", links: userLinks.links });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting link", error });
     }
-
-    userLinks.links = userLinks.links.filter((link) => link._id.toString() !== linkId);
-    await userLinks.save();
-
-    res.status(200).json({ message: "Link deleted successfully", links: userLinks.links });
-  } catch (error) {
-    res.status(500).json({ message: "Error deleting link", error });
-  }
 };
 
 
