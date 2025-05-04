@@ -21,35 +21,22 @@ const Education = ({ resumeData, uniqueId, fetchResumeData }) => {
   const [education, setEducation] = useState([]);
   const [selectedOption, setSelectedOption] = useState("school");
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const [year, month] = dateString.split("-");
+    const monthNames = [
+      "", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return `${monthNames[parseInt(month, 10)]} ${year}`;
+  };
+
   useEffect(() => {
     if (resumeData?.education) {
       setEducation(resumeData.education);
     }
   }, [resumeData]);
 
-  // const handleSave = async (e) => {
-  //   e.preventDefault();
-  //   if (!uniqueId) return;
-
-  //   try {
-  //     let response;
-  //     if (editId) {
-  //       response = await axios.put(`http://localhost:8000/api/resumes/update-education/${uniqueId}/${editId}`, formData);
-  //     } else {
-  //       response = await axios.post(`http://localhost:8000/api/resumes/add-education/add`, {
-  //         uniqueId,
-  //         education: formData,
-  //       });
-  //     }
-
-  //     setPopup(false);
-  //     setEditId(null);
-  //     fetchResumeData()
-  //     setFormData({ educationLevel: "", school: "", board: "", stream: "", degree: "", startMonth: "", startYear: "", endMonth: "", endYear: "" });
-  //   } catch (error) {
-  //     console.error("Error saving education:", error);
-  //   }
-  // };
   const resetForm = () => {
     setFormData({
       educationLevel: "",
@@ -93,7 +80,7 @@ const Education = ({ resumeData, uniqueId, fetchResumeData }) => {
     if (!uniqueId) return;
     try {
       await axios.delete(`http://localhost:8000/api/resumes/delete-education/${uniqueId}/${id}`);
-      alert("Data is deleted!!!")
+      alert("Education is deleted!!!")
       fetchResumeData()
     } catch (error) {
       console.error("Error deleting education:", error);
@@ -117,10 +104,12 @@ const Education = ({ resumeData, uniqueId, fetchResumeData }) => {
             {education.map((edu) => (
               <li key={edu._id || `${edu.school}-${edu.degree}-${Math.random()}`} className="border p-3 my-2 flex justify-between items-center bg-gray-100 rounded-lg">
                 <div>
-                  <h3 className="text-lg font-bold">{edu.degree || edu.educationLevel}, <span>{edu.stream || edu.board}</span></h3>
+                  <h3 className="text-lg font-bold">{edu.degree || `${edu.educationLevel === "Secondary (10th)" ? `${edu.educationLevel}` : `${edu.educationLevel} - ${edu.stream}`}`}, <span>{edu.board}</span></h3>
                   <div className="grid font-bold text-slate-600 text-sm">
                     <p>{edu.school || edu.college}</p>
-                    <p>{edu.startMonth} {edu.startYear} - {edu.endMonth} {edu.endYear}</p>
+                    <p>
+                      {formatDate(edu.startYear)} - {edu.endYear ? formatDate(edu.endYear) : "Present"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex">

@@ -96,7 +96,7 @@ const StyledResume = ({ resumeData }) => {
                         <div key={index} className="mb-2 ml-3">
                             <div className="relative flex">
                                 <p className="text-base font-semibold text-gray-800">- {project.title}</p>
-                                <p className="absolute right-0 text-sm">{formatDateRange(project.startDate, project.startDate)}</p>
+                                <p className="absolute right-0 text-sm">{formatDateRange(project.startDate, project.endDate)}</p>
                             </div>
                             <p className="text-gray-800 text-sm ml-2">{project.description}</p>
                         </div>

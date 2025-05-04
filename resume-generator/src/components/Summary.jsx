@@ -24,6 +24,18 @@ const Summary = ({ resumeData, uniqueId, fetchResumeData }) => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!uniqueId) return;
+    try {
+      await axios.delete(`http://localhost:8000/api/resumes/summary/${uniqueId}`);
+      alert("Summary deleted successfully");
+      fetchResumeData();
+    } catch (error) {
+      console.error("Error deleting summary:", error);
+      alert("Failed to delete summary.");
+    }
+  };
+
   return (
     <div className="w-screen flex justify-center">
       <div className="w-full md:max-w-6xl bg-white shadow-2xl rounded-lg p-8 flex flex-col md:flex-row mx-4 mt-5">
@@ -40,7 +52,9 @@ const Summary = ({ resumeData, uniqueId, fetchResumeData }) => {
                   setSummary(resumeData.summary);
                   setPopup(true);
                 }}
+                textColor="text-pink-500"
               />
+              <Button onClick={handleDelete} variant="delete" />
             </div>
           ) : (
             <div className="flex justify-end">
