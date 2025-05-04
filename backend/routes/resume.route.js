@@ -9,12 +9,12 @@ router.post('/basic-info/add-or-update', addOrUpdateBasicInfo);
 
 // Summary
 router.post('/summary/add-or-update-summary', addOrUpdateSummary);
-router.delete('/summary', deleteSummary);
+router.delete('/summary/:uniqueId', deleteSummary);
 
 //Education
 router.post('/add-education/add', addEducation);
 router.put('/update-education/:uniqueId/:educationId', editEducation);
-router.delete('/delete-education/:uniqueId/:index', deleteEducation);
+router.delete('/delete-education/:uniqueId/:id', deleteEducation);
 
 //Work Experience
 router.post('/work-experience/add', addWorkExperience);

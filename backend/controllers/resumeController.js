@@ -56,18 +56,17 @@ const addOrUpdateSummary = async (req, res) => {
 
 const deleteSummary = async (req, res) => {
     try {
-        const { uniqueId } = req.body;
-        if (!uniqueId) {
-            return res.status(400).json({ message: "uniqueId is required" });
-        }
-        const updatedResume = await Resume.findOneAndUpdate(
-            { uniqueId },
-            { $set: { summary: "" } },
-            { new: true }
-        );
-        res.status(200).json({ message: "Summary deleted successfully", resume: updatedResume });
+        const { uniqueId } = req.params;
+        const resume = await Resume.findOne({ uniqueId });
+
+        if (!resume) return res.status(404).json({ message: "Resume not found" });
+
+        resume.summary = "";
+        await resume.save();
+
+        res.json({ message: "Summary deleted successfully" });
     } catch (error) {
-        res.status(500).json({ message: "Error deleting summary", error });
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
@@ -103,20 +102,24 @@ const editEducation = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 const deleteEducation = async (req, res) => {
     try {
-        const { uniqueId, index } = req.params;
+        const { uniqueId, id } = req.params;
         const resume = await Resume.findOne({ uniqueId });
         if (!resume) {
             return res.status(404).json({ message: "Resume not found" });
         }
-        const educationList = resume.education;
-        if (index < 0 || index >= educationList.length) {
-            return res.status(400).json({ message: "Invalid education index" });
+        const index = resume.education.findIndex(
+            (edu) => edu._id.toString() === id
+        );
+
+        if (index === -1) {
+            return res.status(404).json({ message: "Education entry not found" });
         }
-        educationList.splice(index, 1);
+        resume.education.splice(index, 1);
         await resume.save();
-        res.json({ message: "Education entry deleted successfully", education: resume.education });
+        res.json({ message: "Education entry deleted successfully" });
     } catch (error) {
         console.error("Error deleting education:", error);
         res.status(500).json({ message: "Internal server error" });
