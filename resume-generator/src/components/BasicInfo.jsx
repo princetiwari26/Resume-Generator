@@ -47,21 +47,13 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
 
         <div className="md:w-4/5 w-full mt-4 md:mt-0">
           {!resumeData.basicInfo?.name ? (
-            <div className="flex">
-              <div className="flex justify-end">
+            <div className="relative">
+              <div className="absolute right-0">
                 <Button
                   variant="add"
                   label="Add Basic Info"
                   onClick={() => setPopup(true)}
                 />
-              </div>
-              <div className="flex">
-                <p
-                  onClick={() => setPopup(true)}
-                  className="bg-gradient-to-r from-red-600 to-red-700 text-white px-4 rounded-lg flex items-center ml-5"
-                >
-                  Note - Add this first
-                </p>
               </div>
             </div>
           ) : (
@@ -79,7 +71,7 @@ const BasicInfo = ({ resumeData, uniqueId, fetchResumeData }) => {
               <div>
 
                 <h1 className="text-3xl font-bold">{resumeData.basicInfo.name || "No Name Provided"}</h1>
-                <div className="grid md:flex font-bold text-slate-600 text-sm">
+                <div className="grid md:flex font-bold text-slate-600 text-sm mt-2">
                   <p>{resumeData.basicInfo.phone || "No Phone Number Provided"}</p>
                   <p className="md:ml-5">{resumeData.basicInfo.email || "No Email Provided"}</p>
                   <p className="md:ml-5">{resumeData.basicInfo.city || "No City Provided"}</p>
