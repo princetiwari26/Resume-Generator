@@ -104,7 +104,7 @@ const Education = ({ resumeData, uniqueId, fetchResumeData }) => {
             {education.map((edu) => (
               <li key={edu._id || `${edu.school}-${edu.degree}-${Math.random()}`} className="border p-3 my-2 flex justify-between items-center bg-gray-100 rounded-lg">
                 <div>
-                  <h3 className="text-lg font-bold">{edu.degree || `${edu.educationLevel === "Secondary (10th)" ? `${edu.educationLevel}` : `${edu.educationLevel} - ${edu.stream}`}`}, <span>{edu.board}</span></h3>
+                  <h3 className="text-lg font-bold">{edu.degree || `${edu.educationLevel === "Secondary (10th)" ? `${edu.educationLevel}` : `${edu.educationLevel} - ${edu.stream}`}`}, <span>{edu.board || edu.stream}</span></h3>
                   <div className="grid font-bold text-slate-600 text-sm">
                     <p>{edu.school || edu.college}</p>
                     <p>
