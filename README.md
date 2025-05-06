@@ -2,7 +2,7 @@
 # 📝 Resume Generator Website
 
 🚀 **Live Demo**  
-🔗 [Try the App Here](https://resume-generator-1-ag1w.onrender.com/)
+🔗 [Try the Website Here](https://resume-generator-1-ag1w.onrender.com/)
 
 ---
 
@@ -40,7 +40,7 @@
 - ⚙️ dotenv  
 
 ### **Database**
-- 🗄️ MongoDB (via MongoDB Atlas & Mongoose)
+- 🗄️ MongoDB
 
 ---
 
@@ -61,7 +61,7 @@ npm install
 
 ### 3. Set up environment variables
 
-Create a `.env` file in the root directory and add your MongoDB connection string:
+Create a `.env` file in the backend directory and add your MongoDB connection string:
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
