@@ -53,15 +53,28 @@ git clone https://github.com/princetiwari26/Resume-Generator
 cd Resume-Generator
 ```
 
-### 2. Install dependencies
+### 2. Install dependencies for both frontend and backend:
+   ```sh
+   cd resume-generator
+   npm install
+   cd ../backend
+   npm install
+   ```
 
-```bash
-npm install
-```
+### 3. Start the backend server:
+   ```sh
+   cd backend
+   npm run dev
+   ```
 
 ### 3. Set up environment variables
-
 Create a `.env` file in the backend directory and add your MongoDB connection string:
+
+### 4. Start the frontend:
+   ```sh
+   cd resume-generator
+   npm start
+   ```
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
