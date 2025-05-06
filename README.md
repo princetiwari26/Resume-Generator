@@ -7,7 +7,6 @@
 ---
 
 ## 📸 Screenshot  
-_Image of Resume Generator Website_  
 ![Resume Generator Screenshot](https://imagizer.imageshack.com/img922/5028/0YMarM.png)
 
 ---
@@ -27,8 +26,7 @@ _Image of Resume Generator Website_
 ## 🛠️ Tech Stack
 
 ### **Frontend**
-- ⚛️ React.js  
-- 🚀 Next.js  
+- ⚛️ React.js 
 - 🎨 Tailwind CSS  
 - 🔗 Axios  
 - 📄 jsPDF  
