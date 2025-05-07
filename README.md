@@ -69,16 +69,15 @@ cd Resume-Generator
 
 ### 3. Set up environment variables
 Create a `.env` file in the backend directory and add your MongoDB connection string:
+```env
+MONGODB_URI=your_mongodb_connection_string
+```
 
 ### 4. Start the frontend:
    ```sh
    cd resume-generator
    npm start
    ```
-
-```env
-MONGODB_URI=your_mongodb_connection_string
-```
 
 ### 4. Run the application
 
